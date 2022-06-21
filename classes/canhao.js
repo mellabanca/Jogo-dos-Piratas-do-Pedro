@@ -9,11 +9,19 @@ class Canhao {
         this.base = loadImage("./assets/cannonBase.png");
     }
     dCanhao(){
+        if(keyIsDown(RIGHT_ARROW)&&this.ang<70){
+            this.ang+=1
+        }
+        if(keyIsDown(LEFT_ARROW)&&this.ang>-30){
+            this.ang-=1
+        }
         push();
+        translate(this.posX,this.posY);
+        rotate(this.ang)
         imageMode(CENTER);
         image(this.cano,
-            this.posX,
-            this.posY,
+            0,
+            0,
             this.lar,
             this.alt);
         pop();

@@ -30,7 +30,8 @@ function setup() {
 
  torredeartilharia = Bodies.rectangle(160, 350, 160, 310, options);
  World.add(world, torredeartilharia);
- 
+
+ angleMode(DEGREES);
  angulodocanhao = 20;
  canhao = new Canhao(180,110,130,100,angulodocanhao)
 
@@ -51,4 +52,9 @@ function draw()  {
  pop();
   canhao.dCanhao();
   bala.dBala();
+}
+function keyReleased(){
+  if(keyCode===DOWN_ARROW){
+    bala.canhaoA();
+  }
 }
