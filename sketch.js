@@ -7,7 +7,8 @@ var engine, world, ground;
 var aguaquemexe;
 var torredeartilharia;
 var imagemdatorre;
-
+var canhao, angulodocanhao;
+var bala;
 
 function preload() {
   aguaquemexe = loadImage("./assets/background.gif");
@@ -30,9 +31,13 @@ function setup() {
  torredeartilharia = Bodies.rectangle(160, 350, 160, 310, options);
  World.add(world, torredeartilharia);
  
+ angulodocanhao = 20;
+ canhao = new Canhao(180,110,130,100,angulodocanhao)
+
+ bala = new Bala(canhao.posX, canhao.posY);
 }
 
-function draw() {
+function draw()  {
   background(189);
   image(aguaquemexe, 0, 0, 1200, 600);
 
@@ -44,5 +49,6 @@ function draw() {
  imageMode(CENTER);
  image(imagemdatorre,torredeartilharia.position.x, torredeartilharia.position.y, 160, 310);
  pop();
-   
+  canhao.dCanhao();
+  bala.dBala();
 }
