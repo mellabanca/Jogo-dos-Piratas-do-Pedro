@@ -29,6 +29,8 @@ var torredeartilharia;
 var imagemdatorre;
 var canhao, angulodocanhao;
 var bala;
+var balas = [];
+var navio;
 
 function preload() {
   aguaquemexe = loadImage("./assets/background.gif");
@@ -55,7 +57,7 @@ function setup() {
  angulodocanhao = 20;
  canhao = new Canhao(180,110,130,100,angulodocanhao)
 
- bala = new Bala(canhao.posX, canhao.posY);
+ navio = new Navio(width-79, height-60, 170, 170, -80); 
 }
 
 function draw()  {
@@ -71,10 +73,27 @@ function draw()  {
  image(imagemdatorre,torredeartilharia.position.x, torredeartilharia.position.y, 160, 310);
  pop();
   canhao.dCanhao();
-  bala.dBala();
+  Matter.Body.setVelocity(navio.naviopirata, {x:-0.9, y:0});
+  navio.dNavio();
+for(var i = 0;i<balas.length;i++){
+  balasM(balas[i],i)
+}
 }
 function keyReleased(){
   if(keyCode===DOWN_ARROW){
-    bala.canhaoA();
+    balas[balas.length-1].canhaoA();
+  }
+}
+
+function keyPressed(){
+  if( keyCode===DOWN_ARROW){
+    var bala = new Bala(canhao.posX, canhao.posY);
+    balas.push(bala);
+  }
+}
+
+function balasM(bala,i){
+  if(bala){
+    bala.dBala();
   }
 }

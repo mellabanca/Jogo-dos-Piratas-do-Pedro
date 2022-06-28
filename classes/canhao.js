@@ -12,7 +12,7 @@ class Canhao {
         if(keyIsDown(RIGHT_ARROW)&&this.ang<70){
             this.ang+=1
         }
-        if(keyIsDown(LEFT_ARROW)&&this.ang>-30){
+        if(keyIsDown(LEFT_ARROW)&&this.ang>-50){
             this.ang-=1
         }
         push();
