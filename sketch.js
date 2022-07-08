@@ -31,10 +31,15 @@ var canhao, angulodocanhao;
 var bala;
 var balas = [];
 var navio;
+var navios = [];
+var naviosAnimation = [];
+var naviosSpritesheet, naviosDados;
 
 function preload() {
   aguaquemexe = loadImage("./assets/background.gif");
   imagemdatorre = loadImage("./assets/tower.png");
+  naviosSpritesheet = loadImage("./assets/boat/boat.png");
+  naviosDados = loadJSON("./assets/boat/boat.json");
 }
 
 function setup() {
@@ -57,7 +62,13 @@ function setup() {
  angulodocanhao = 20;
  canhao = new Canhao(180,110,130,100,angulodocanhao)
 
- navio = new Navio(width-79, height-60, 170, 170, -80); 
+ var naviosFrames = naviosDados.frames;
+ for(var i = 0; i < naviosFrames.length; i++){
+  var pos = naviosFrames[i].position;
+  var img = naviosSpritesheet.get(pos.x, pos.y, pos.w, pos.h);
+  naviosAnimation.push(img);
+ }
+
 }
 
 function draw()  {
@@ -73,10 +84,12 @@ function draw()  {
  image(imagemdatorre,torredeartilharia.position.x, torredeartilharia.position.y, 160, 310);
  pop();
   canhao.dCanhao();
-  Matter.Body.setVelocity(navio.naviopirata, {x:-0.9, y:0});
-  navio.dNavio();
+
+  naviosM();
+  
 for(var i = 0;i<balas.length;i++){
   balasM(balas[i],i)
+  colisaoBalaN(i);
 }
 }
 function keyReleased(){
@@ -95,5 +108,43 @@ function keyPressed(){
 function balasM(bala,i){
   if(bala){
     bala.dBala();
+    if(bala.bola.position.x>=width||bala.bola.position.y>=height-50){
+      bala.apgbala(i);
+    }
+  }
+}
+
+function naviosM(){
+  if(navios.length>0){
+    if(navios[navios.length-1]===undefined||navios[navios.length-1].naviopirata.position.x<width-300){
+      var position = [-40,-60,-70,-20];
+      var position2 = random(position);
+      var  navio = new Navio(width, height-60, 170, 170, position2, naviosAnimation); 
+      navios.push(navio);
+    }
+    for(var i =0;i<navios.length;i++){
+      if(navios[i]){
+        Matter.Body.setVelocity(navios[i].naviopirata, {x:-0.9, y:0});
+        navios[i].dNavio();
+        navios[i].animNavio();
+      }
+    }
+  }
+  else{
+  var  navio = new Navio(width, height-60, 170, 170, -60, naviosAnimation); 
+  navios.push(navio);
+  }
+}
+
+function colisaoBalaN(index){
+  for(var i = 0;i<navios.length;i++){
+    if(balas[index]!==undefined&&navios[i]!==undefined){
+      var colisao = Matter.SAT.collides(balas[index].bola,navios[i].naviopirata);
+      if(colisao.collided){
+        navios[i].apgNavio(i);
+        Matter.World.remove(world,balas[index].bola);
+        delete balas[index];
+      }
+    }
   }
 }

@@ -33,4 +33,11 @@ class Bala{
         Matter.Body.setStatic(this.bola, false);
         Matter.Body.setVelocity(this.bola, {x: velocity.x * (180/3.14), y: velocity.y * (180/3.14)});
     }
+    apgbala(index){
+        Matter.Body.setVelocity(this.bola, {x: 0, y: 0});
+        setTimeout(()=>{
+            Matter.World.remove(world,this.bola);
+            delete balas[index];
+        },1000);
+    }
 }
