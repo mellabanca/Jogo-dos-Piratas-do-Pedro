@@ -8,15 +8,27 @@ class Bala{
         World.add(world,this.bola);
         this.imagem = loadImage("./assets/cannonball.png");
         this.rastro = [];
+        this.balav = 0.05;
+        this.balaa = [this.imagem];
+        this.balaafun = false;
+    }
+
+    animBala(){
+        this.balav += 0.05;
     }
 
     dBala(){
         var pos = this.bola.position;
+        var ang = this.bola.angle;
+        var index = floor(this.balav % this.balaa.length);
+
         push();
+        translate(pos.x, pos.y);
+        rotate(ang);
         imageMode(CENTER);
-        image(this.imagem, pos.x, pos.y, this.raio, this.raio);
+        image(this.balaa[index], 0, 0, this.raio, this.raio);
         pop();
-        if(this.bola.velocity.x>0&&pos.x>10){
+        if(this.bola.velocity.x>0&&pos.x>10&&!this.balaafun){
             var position = [pos.x,pos.y];
             this.rastro.push(position);
             for(var i = 0;i<this.rastro.length;i++){
@@ -34,7 +46,12 @@ class Bala{
         Matter.Body.setVelocity(this.bola, {x: velocity.x * (180/3.14), y: velocity.y * (180/3.14)});
     }
     apgbala(index){
+        this.balaafun = true;
         Matter.Body.setVelocity(this.bola, {x: 0, y: 0});
+
+        this.balaa = balaa;
+        this.balav = 0.05;
+        this.raio = 150;
         setTimeout(()=>{
             Matter.World.remove(world,this.bola);
             delete balas[index];

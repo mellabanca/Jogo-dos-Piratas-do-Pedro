@@ -7,6 +7,7 @@ class Navio {
         this.naviod = loadImage("./assets/boat.png");
         this.navioa = navioAnimation;
         this.naviov = 0.05;
+        this.navioq = false;
         World.add(world,this.naviopirata);
     }
 
@@ -27,6 +28,11 @@ class Navio {
         pop();
     }
     apgNavio(index){
+        this.navioa = anavioanimation;
+        this.naviov = 0.05;
+        this.lar = 300;
+        this.alt = 300;
+        this.navioq = true
         setTimeout(()=>{
             Matter.World.remove(world,navios[index].naviopirata);
             delete navios[index];
