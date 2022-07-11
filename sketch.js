@@ -38,6 +38,7 @@ var anavioanimation = [];
 var anavioSpritesheet, anavioDados;
 var balaa = [];
 var balaSpritesheet, balaDados;
+var detectgameover = false;
 
 function preload() {
   aguaquemexe = loadImage("./assets/background.gif");
@@ -147,6 +148,11 @@ function naviosM(){
         Matter.Body.setVelocity(navios[i].naviopirata, {x:-0.9, y:0});
         navios[i].dNavio();
         navios[i].animNavio();
+        var colisao = Matter.SAT.collides(torredeartilharia, navios[i].naviopirata);
+        if(colisao.collided && !navios[i].navioq){
+          detectgameover = true;
+          gameover();
+        }
       }
     }
   }
@@ -167,4 +173,20 @@ function colisaoBalaN(index){
       }
     }
   }
+}
+
+function gameover(){
+  swal({
+    title: "Gamer Over!",
+    text: "Obrigado por jogar!",
+    imageUrl: "https://raw.githubusercontent.com/whitehatjr/PiratesInvasion/main/assets/boat.png",
+    imageSize: "150x150",
+    confirmButtonText: "Jogar novamente"
+  },
+  function(botaoPressionado){
+    if(botaoPressionado){
+      location.reload();
+    }
+  }
+  )
 }
